@@ -1,5 +1,9 @@
 import requests
+
 import json
+
+from urllib3 import HTTPConnectionPool
+
 from services.config import SUGAR_AI_API
 
 
@@ -10,7 +14,7 @@ def get_answer(message: str):
     data = json.dumps(data)
     while True:
         try:
-            response = requests.post(SUGAR_AI_API, headers=headers, data=data)
+            response = requests.post(SUGAR_AI_API, headers=headers, data=data, timeout=20)
             return response.json()["content"]
-        except Exception as e:
-            return str(e)
+        except requests.exceptions.Timeout:
+            return "Сегодня я уже устал и не готов с Вами общаться..."
