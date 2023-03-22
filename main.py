@@ -1,12 +1,15 @@
 import telebot
 
-bot_token = '6281674243:AAGIVvqwlK-4SPyXjAGGc46ZWOlMAkpKpXQ'
-bot = telebot.TeleBot(bot_token)
+from services.config import BOT_TOKEN
+from services.sugar import get_answer
+
+bot = telebot.TeleBot(BOT_TOKEN)
 
 
 @bot.message_handler(func=lambda message: True)
 def echo_message(message):
-    bot.reply_to(message, message.text)
+    answer = get_answer(message.text)
+    bot.reply_to(message, answer)
 
 
 if __name__ == '__main__':
