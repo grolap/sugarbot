@@ -2,7 +2,7 @@ import telebot
 
 from flask import Flask, request
 from services.config import BOT_TOKEN, APP_URL
-from services.sugar import get_answer
+from services.sugar import get_answer, insert_answer
 from services.messages import BOT_COMMANDS
 
 WEBHOOK_URL = f"{APP_URL}/{BOT_TOKEN}"
@@ -23,7 +23,11 @@ def receive_message():
             answer = BOT_COMMANDS[message.text]
             bot.send_message(message.chat.id, answer)
         except KeyError:
-            answer = get_answer(message.text)
+            if str(message.text)[:7] == "/insert":
+                answer = insert_answer(str(str(message.text)[7:]).strip())
+            else:
+                answer = get_answer(message.text)
+
             bot.reply_to(message, answer)
 
     return 'ok', 200
