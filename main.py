@@ -58,7 +58,7 @@ def insert(message):
 
 def handle_input_text(message):
     if message.text == BOT_COMMANDS['cancel']:
-        bot.send_message(chat_id=message.chat.id, text=BOT_COMMANDS["cancel_action"])
+        bot.send_message(chat_id=message.chat.id, text=BOT_COMMANDS["cancel_action"], reply_markup=menu_markup)
     else:
         answer = insert_answer(message.text)
         bot.send_message(chat_id=message.chat.id, text=answer, reply_markup=menu_markup)
