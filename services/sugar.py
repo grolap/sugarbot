@@ -3,7 +3,7 @@ import requests
 import json
 
 from services.messages import BOT_MESSAGES
-from services.config import SUGAR_AI_API
+from services.config import SUGAR_AI_API, TIMEOUT_API
 
 
 def get_answer(message: str):
@@ -14,7 +14,7 @@ def get_answer(message: str):
     data = json.dumps(data)
     while True:
         try:
-            response = requests.post(url=url, headers=headers, data=data, timeout=20)
+            response = requests.post(url=url, headers=headers, data=data, timeout=TIMEOUT_API)
             return response.json()["content"]
         except requests.exceptions.Timeout:
             return BOT_MESSAGES["timeout"]
